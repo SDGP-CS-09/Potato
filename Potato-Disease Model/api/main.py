@@ -10,8 +10,19 @@ import tensorflow as tf
 
 app = FastAPI()
 
-MODEL_PATH = r"api/model_name.h5"
-MODEL = tf.keras.models.load_model(MODEL_PATH)
+origins = [
+    "http://localhost",
+    "http://localhost:3000",
+]
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+MODEL = tf.keras.models.load_model("model_name.h5")
 
 CLASS_NAMES = ["Potato___Early_blight", "Potato___Late_blight", "Potato___healthy"]
 
@@ -40,4 +51,4 @@ async def predict(
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='localhost', port=8080)
+    uvicorn.run(app, host='localhost', port=8000)
