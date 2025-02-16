@@ -1,7 +1,7 @@
 
 
 from fastapi import FastAPI, File, UploadFile
-from fastapi.middleware.cors import CORSMiddleware
+import os
 import uvicorn
 import numpy as np
 from io import BytesIO
@@ -10,17 +10,6 @@ import tensorflow as tf
 
 app = FastAPI()
 
-origins = [
-    "http://localhost",
-    "http://localhost:3000",
-]
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 MODEL = tf.keras.models.load_model("model_name.h5")
 
@@ -51,4 +40,5 @@ async def predict(
     }
 
 if __name__ == "__main__":
-    uvicorn.run(app, host='localhost', port=8000)
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host="0.0.0.0", port=port)
