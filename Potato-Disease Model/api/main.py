@@ -10,7 +10,7 @@ import tensorflow as tf
 
 app = FastAPI()
 
-MODEL_PATH = r"api\model_name.h5"
+MODEL_PATH = r"api/model_name.h5"
 MODEL = tf.keras.models.load_model(MODEL_PATH)
 
 CLASS_NAMES = ["Potato___Early_blight", "Potato___Late_blight", "Potato___healthy"]
